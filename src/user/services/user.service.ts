@@ -5,6 +5,7 @@ import { Model, ObjectId } from 'mongoose';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { ResponseCreateUserDto } from '../dto/response-create-user.dto';
+import { ResponseUserDTO } from '../dto/response-user.dto';
 
 @Injectable()
 export class UserService {
@@ -25,14 +26,14 @@ export class UserService {
   }
   async getUsers() {
     const users = await this.userModel.find();
-    return users.map((user) => new ResponseCreateUserDto(user));
+    return users.map((user) => new ResponseUserDTO(user));
   }
   async getUser(id: string) {
     const user = await this.userModel.findById(id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return new ResponseCreateUserDto(user);
+    return new ResponseUserDTO(user);
   }
 
   async register(body: CreateUserDTO){
@@ -48,6 +49,6 @@ export class UserService {
     if (!userDeleted) {
       throw new NotFoundException('User not found');
     }
-    return new ResponseCreateUserDto({...userDeleted, active: false});
+    return new ResponseUserDTO({...userDeleted, active: false});
   }
 }

@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post  } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards  } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { ValidateObjectIdPipe } from 'src/Pipes/validate-object-id.pipe';
 import { ObjectId } from 'mongoose';
+import { AuthGuard } from 'src/auth/guards/auth-user-jwt.guard';
 
-@Controller('user')
+@UseGuards(AuthGuard)
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
   @Get()
   getUsers() {
     return this.userService.getUsers();
@@ -16,11 +17,6 @@ export class UserController {
   @Get(':id')
   getUser(@Param('id',ValidateObjectIdPipe) id: string) {
     return this.userService.getUser(id);
-  }
-
-  @Post('register')
-  async create(@Body() body: CreateUserDTO) {
-    return this.userService.register(body);
   }
 
   @Delete(':id')

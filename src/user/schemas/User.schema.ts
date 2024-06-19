@@ -22,6 +22,9 @@ export class User {
   bio?: string;
 
   @Prop({ default: null, required: false })
+  access_token?: string;
+
+  @Prop({ default: null, required: false })
   token?: string;
   
   @Prop({ default: true })
