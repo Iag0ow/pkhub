@@ -3,7 +3,6 @@ import { AuthService } from '../services/auth.service';
 import { AuthLoginDTO } from '../dto/auth-login.dto';
 import { AuthForgotDTO } from '../dto/auth-forgot.dto';
 import { AuthResetDTO } from '../dto/auth-reset.dto';
-import { AuthGuard } from '../guards/auth-user-jwt.guard';
 import { CreateUserDTO } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/services/user.service';
 
@@ -31,7 +30,7 @@ export class AuthController {
     return this.authService.resetPassword(body.password, body.token);;
   }
   @Get('check')
-  async check(@Request() req) {
+  async check(@Request() req: any) {
     return req.user;
   }
 

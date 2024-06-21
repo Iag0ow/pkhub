@@ -16,6 +16,7 @@ export class AuthService {
       {
         name: user.name,
         email: user.email,
+        role: user.role,
       },
       {
         subject: String(user._id),

@@ -1,21 +1,14 @@
 import { User } from "src/user/schemas/User.schema";
 
 export class ResponseAuthDTO {
+  _id: string;
+  name: string;
+  email: string;
+  access_token: string;
   constructor(user: User, token: string) {
-
-    const {
-      _id,
-      name,
-      email
-    } = user;
-    const access_token = token;
-
-    return {
-      _id: String(_id),
-      name,
-      email,
-      access_token
-    };
-
+    this._id = String(user._id);
+    this.name = user.name;
+    this.email = user.email;
+    this.access_token = token;
   }
 }
