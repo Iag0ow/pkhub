@@ -18,21 +18,17 @@ export class ContentService {
     return new ResponseContentDTO(newContent);
   }
 
-  // TODO: ANTES DE DELETAR, VERIFICAR SE O USUARIO É O DONO DO POST
   async deleteContent(userId: string, contentId: string) {
-    try {
-      const propertyUser = await this.contentModel.findOne({ _id: contentId, userId: userId });
-      if (!propertyUser) {
-        throw new NotFoundException(`Content with ID ${contentId} not found`);
-      }
-      await this.contentModel.deleteOne({ _id: contentId });
-      return { message: 'Content deleted successfully' };
-    } catch (error) {
-        throw new BadRequestException(error); 
+    const propertyUser = await this.contentModel.findOne({ _id: contentId, userId: userId });
+    if (!propertyUser) {
+      throw new NotFoundException(`Content with ID ${contentId} not found`);
     }
+    await this.contentModel.deleteOne({ _id: contentId });
+    return { message: 'Content deleted successfully' };
   }
 
   async deleteAllContents() {
     await this.contentModel.deleteMany({});
+    return { message: 'All Content deleted successfully' };
   }
 }
