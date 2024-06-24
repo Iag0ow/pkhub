@@ -7,7 +7,7 @@ async function bootstrap() {
   // app.useGlobalFilters(new AllExceptionsFilter(), new MongoExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
-  )
+  );
   app.enableCors({
     origin: '*',
   });

@@ -1,4 +1,8 @@
-import { BadGatewayException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schemas/User.schema';
 import { Model, ObjectId } from 'mongoose';
@@ -10,7 +14,9 @@ import { UpdateUserDTO } from '../dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+  ) {}
 
   async validateExistingEmail(email: string) {
     const user = await this.userModel.findOne({ email });
@@ -18,10 +24,10 @@ export class UserService {
       throw new ConflictException('Email already exists');
     }
   }
-  async findByEmail(email: string) : Promise<User> {
+  async findByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({ email });
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Register not found');
     }
     return user;
   }
@@ -47,7 +53,7 @@ export class UserService {
     return new ResponseUserDTO(user);
   }
 
-  async register(body: CreateUserDTO){
+  async register(body: CreateUserDTO) {
     await this.validateExistingEmail(body.email);
     const userCreated = await this.userModel.create({
       ...body,
@@ -60,11 +66,39 @@ export class UserService {
     if (!userDeleted) {
       throw new NotFoundException('User not found');
     }
-    return new ResponseUserDTO({...userDeleted, active: false});
+    return new ResponseUserDTO({ ...userDeleted, active: false });
   }
 
   async updateUser(id: ObjectId, body: UpdateUserDTO) {
-    const userUpdated = await this.userModel.findByIdAndUpdate(id, { $set: body }, { new: true, runValidators: true });
+    const userUpdated = await this.userModel.findByIdAndUpdate(
+      id,
+      { $set: body },
+      { new: true, runValidators: true },
+    );
+    if (!userUpdated) {
+      throw new NotFoundException('User not found');
+    }
+    return new ResponseUserDTO(userUpdated);
+  }
+
+  async updateUserPassword(id: ObjectId, password: string) {
+    const userUpdated = await this.userModel.findByIdAndUpdate(
+      id,
+      { $set: { password } },
+      { new: true, runValidators: true },
+    );
+    if (!userUpdated) {
+      throw new NotFoundException('User not found');
+    }
+    return new ResponseUserDTO(userUpdated);
+  }
+
+  async updateUserPhoto(id: ObjectId, photo: Express.Multer.File) {
+    const userUpdated = await this.userModel.findByIdAndUpdate(
+      id,
+      { $set: { photo } },
+      { new: true, runValidators: true },
+    );
     if (!userUpdated) {
       throw new NotFoundException('User not found');
     }

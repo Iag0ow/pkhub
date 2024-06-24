@@ -1,8 +1,6 @@
-import { IsEmail, IsJWT } from "class-validator";
+import { IsEmail } from 'class-validator';
 
 export class AuthForgotDTO {
-
   @IsEmail()
   email: string;
-  
 }

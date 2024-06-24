@@ -1,11 +1,12 @@
-import { IsEmail, IsNumber, IsOptional, IsString, IsStrongPassword, MinLength, isString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class UpdateUserDTO {
-  
   @IsString()
+  @IsNotEmpty()
   name?: string;
 
   @IsOptional()
   @IsEmail()
+  @IsNotEmpty()
   email?: string;
 
   @IsOptional()
@@ -18,5 +19,4 @@ export class UpdateUserDTO {
 
   // @IsNumber()
   // role?: number;
-  
 }

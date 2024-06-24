@@ -1,4 +1,4 @@
-import { User } from "../schemas/User.schema";
+import { User } from '../schemas/User.schema';
 
 export class ResponseCreateUserDto {
   _id: string;

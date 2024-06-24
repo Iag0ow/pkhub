@@ -1,11 +1,13 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 @Schema({ timestamps: true })
-
 export class Comment {
-  _id?: mongoose.ObjectId | string;
+  _id?: mongoose.Types.ObjectId | string;
 
-  @Prop({ required: true })
+  @Prop()
+  userId: string;
+
+  @Prop()
   name: string;
 
   @Prop({ required: true })
@@ -16,8 +18,6 @@ export class Comment {
 
   @Prop({ default: Date.now })
   createdAt: Date;
-
 }
-
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);

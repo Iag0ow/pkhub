@@ -1,10 +1,9 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { Comment, CommentSchema } from "./Comment.schema";
+import { Comment, CommentSchema } from './Comment.schema';
 
 @Schema({ timestamps: true })
 export class Content {
-
   _id?: mongoose.ObjectId | string;
 
   @Prop({ required: true })
@@ -31,6 +30,5 @@ export class Content {
   @Prop({ default: Date.now })
   updatedAt: Date;
 }
-
 
 export const ContentSchema = SchemaFactory.createForClass(Content);

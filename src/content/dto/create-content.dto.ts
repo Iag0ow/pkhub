@@ -1,18 +1,18 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Types } from 'mongoose';
-import { IsObjectId } from 'src/decorators/objectid.decorator';
-
 export class CreateContentDTO {
-  
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsOptional()
   @IsString()
+  @IsNotEmpty()
   description: string;
 
   @IsOptional()
   @IsEmail()
+  @IsNotEmpty()
   image: string;
 
   private _userId: Types.ObjectId | string;

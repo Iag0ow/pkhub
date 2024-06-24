@@ -9,13 +9,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async () => { return {secret: process.env.JWT_SECRET}},
+      useFactory: async () => {
+        return { secret: process.env.JWT_SECRET };
+      },
       inject: [ConfigService],
     }),
-    forwardRef(() => UserModule)
+    forwardRef(() => UserModule),
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}
